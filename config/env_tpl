@@ -1,0 +1,4 @@
+export GOOGLE_APPLICATION_CREDENTIALS={path_to-service_account_file}
+export GCP_PROJECT_NAME=
+export SLACK_BOT_USER_ACCESS_TOKEN=
+export SLACK_SIGNING_SECRET=
