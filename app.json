@@ -1,0 +1,16 @@
+{
+    "env": {
+        "GCP_PROJECT_NAME": {
+            "description": "GCP Project name",
+            "required": true
+        },
+        "SLACK_BOT_USER_ACCESS_TOKEN": {
+            "description": "Slack Bot User access token",
+            "required": true
+        },
+        "SLACK_SIGNING_SECRET": {
+            "description": "Slack signing Secret",
+            "required": true
+        }
+    }
+}
