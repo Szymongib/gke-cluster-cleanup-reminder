@@ -42,7 +42,7 @@ python3 app/cleanup-reminder.py
 To create a Slack application in your workspace refer to the [documentation](https://api.slack.com/start/overview#creating).
 
 
-## Configure bot Bot
+## Configure Bot
 
 To configure bot for your Slack channel follow the steps below:
 1. Create a Slack Application
