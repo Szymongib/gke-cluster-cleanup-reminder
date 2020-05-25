@@ -29,6 +29,8 @@ signing_secret = os.environ[SLACK_SIGNING_SECRET_ENV]
 server_port = server = os.environ.get('PORT', 5000)
 print(f"PORT: {server_port}")
 
+handled_events = []
+
 app = Flask(__name__)
 
 
@@ -56,7 +58,8 @@ def core_handler():
     event = json_data["event"]
 
     if event["type"] == APP_MENTION_EVENT_TYPE:
-        handle_app_mention_event(event)
+        event_id = json_data["event_id"]
+        handle_app_mention_event(event, event_id)
 
     return json.dumps({'success': True}), 200, {'ContentType': 'application/json'}
 
@@ -126,8 +129,13 @@ def handle_message_button_submit(json_data):
     return json.dumps({'error': "Failed to handle action"}), 400, {'ContentType': 'application/json'}
 
 
-def handle_app_mention_event(event):
+def handle_app_mention_event(event, event_id):
     print("Handling app mention event")
+
+    # Events may be sent several times if app take long to spin up
+    # Therefor check if this instance already handled specific event
+    if event_id in handled_events:
+        return
 
     channel_id = event["channel"]
     gke_clusters = gcp.client.list_clusters(gcp_project)
@@ -138,6 +146,8 @@ def handle_app_mention_event(event):
 
     if r.status_code != 200:
         print("Error posting message to slack.")
+    else:
+        handled_events.append(event_id)
 
 
 def prepare_message(gke_clusters, gcp_project, channel_id, time_stamp=0):
